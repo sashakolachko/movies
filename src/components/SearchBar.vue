@@ -2,7 +2,7 @@
   <v-container grid-list-xs,sm,md,lg,xl>
     <v-form ref="form">
       <v-container grid-list-xs,sm,md,lg,xl>
-        <v-layout row wrap justify-space-around>
+        <v-layout row wrap align-baseline>
           <v-flex xs12 md8 lg10>
             <v-text-field
             name="keyWord"
