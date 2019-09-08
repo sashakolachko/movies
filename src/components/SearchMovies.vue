@@ -31,7 +31,7 @@ export default {
   },
   data: () => ({
     movies: [],
-    key: 'da36901d65c3b23d89327f28f21da721'
+    key: 'da36901d65c3b23d89327f28f21da721',
   }),
   methods: {
     searchMovie(word) {
@@ -40,7 +40,6 @@ export default {
     }
   }
 }
-// https://image.tmdb.org/t/p/w200/kqjL17yufvn9OVLyXYpvtyrFfak.jpg
 </script>
 
 <style lang="css" scoped>

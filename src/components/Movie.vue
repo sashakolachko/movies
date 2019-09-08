@@ -8,6 +8,8 @@
       <div class="body-1 black--text">
         {{ releaseDate }}
       </div>
+      <v-icon class="mr-1">favorite</v-icon>
+      <span>{{ popularity }}</span>
       <div class="body-2">
         {{ overview }}
       </div>
