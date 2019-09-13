@@ -2,18 +2,28 @@
   <v-container grid-list-xs,sm,md,lg,xl>
     <v-form ref="form">
       <v-container grid-list-xs,sm,md,lg,xl>
-        <v-layout row wrap align-baseline>
-          <v-flex xs12 md8 lg10>
+        <v-layout row justify-center align-baseline>
+          <v-flex xs12 md4 lg6 ma-1>
             <v-text-field
             name="keyWord"
-            label="Search a movie"
+            label="Search something"
             id="keyWord"
             v-model="keyWord"
             :rules="inputRules"
             >
             </v-text-field>
           </v-flex>
-          <v-flex xs12 md4 lg2 text-center>
+          <v-flex xs12 md3 lg4 ma-1>
+          <v-select
+            v-model="selected"
+            :items="selectItems"
+            item-text="name"
+            item-value="itemValue"
+            return-object
+            >
+          </v-select>
+          </v-flex>
+          <v-flex xs12 md4 lg2 text-center ma-1 >
             <v-btn  :color="buttonColor"  @click="search()">
               <v-icon left>search</v-icon>
               <span>Search</span>
@@ -33,13 +43,34 @@ export default {
       keyWord: '',
       inputRules: [
         v => v.length >= 5 || 'Minimum length is 5 characters'
+      ],
+      selected: {
+        name: "Movie",
+        itemValue: "movie"
+      },
+      selectItems: [{
+          name: "Movie",
+          itemValue: "movie"
+        },
+        {
+          name: "TV-Show",
+          itemValue: "tv"
+
+        },
+        {
+          name: "Person",
+          itemValue: "person"
+        }
       ]
     }
   },
   methods: {
     search() {
       if (this.$refs.form.validate()) {
-        this.$emit('searchMovie', this.keyWord);
+        this.$emit('searchMovie', {
+          keyWord: this.keyWord,
+          searchType: this.selected.itemValue
+        });
       }
     }
   },
