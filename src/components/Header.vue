@@ -9,6 +9,12 @@
           <v-btn text><router-link class="router-link" to="/">Movies</router-link></v-btn>
           <v-btn text><router-link class="router-link" to="/trending">Trending</router-link></v-btn>
           <v-btn text><router-link class="router-link" to="/genres">Genres</router-link></v-btn>
+          <v-btn v-if="authorized == false" text color="success" @click="login()">Log in</v-btn>
+          <div class="d-flex flex-column"  v-else="authorized == true">
+            <p class="ma-0">{{ userName }}</p>
+            <v-btn text color="red darken-4" @click="logout()">Log out</v-btn>
+          </div>
+
         </v-toolbar-items>
 
       </v-toolbar>
@@ -16,8 +22,39 @@
 </template>
 
 <script>
+import axios from 'axios';
+import key from '../key.js';
 export default {
-  name: 'Header'
+  name: 'Header',
+  data: () => ({
+    key: key,
+    authorized: false,
+    userName: ''
+  }),
+  methods: {
+    login() {
+      axios.get(`https://api.themoviedb.org/3/authentication/token/new?api_key=${this.key}`)
+        .then(response => {
+          let newWindow = window.open(`https://www.themoviedb.org/authenticate/${response.data.request_token}?redirect_to=http://localhost:8080/login/${response.data.request_token}`, "_self");
+        })
+    },
+    logout() {
+      localStorage.removeItem('sessionId');
+      this.authorized = false;
+    }
+  },
+  mounted() {
+    let sessionId = localStorage.getItem('sessionId');
+    if (sessionId) {
+      this.authorized = true;
+      axios.get(`https://api.themoviedb.org/3/account?api_key=${this.key}&session_id=${sessionId}`)
+        .then(response => this.userName = response.data.username)
+    }
+
+  },
+  computed: {
+
+  }
 }
 </script>
 

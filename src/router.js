@@ -7,6 +7,7 @@ import Trending from './components/pages/Trending.vue';
 import DetailedMovie from './components/pages/DetailedMovie.vue';
 import DetailedPerson from './components/pages/DetailedPerson.vue';
 import Genres from './components/pages/Genres.vue';
+import Login from './components/pages/Login.vue';
 
 export default new VueRouter({
   mode: 'history',
@@ -20,6 +21,11 @@ export default new VueRouter({
       path: '/movies',
       component: SearchMovies,
       name: "searchMovie"
+    },
+    {
+      path: '/login/:requestToken?',
+      component: Login,
+      name: "Login"
     },
     {
       path: '/about',
@@ -49,7 +55,7 @@ export default new VueRouter({
       path: '*',
       component: NotFound,
       props: {
-        msg: "Cannot the page you requested"
+        msg: "Cannot find the page you requested"
       }
     }
   ]
