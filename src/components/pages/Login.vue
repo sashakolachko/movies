@@ -16,6 +16,10 @@ export default {
       })
       .then(response => {
         localStorage.setItem('sessionId', response.data.session_id);
+        let sessionId = response.data.session_id;
+
+        axios.get(`https://api.themoviedb.org/3/account?api_key=${this.key}&session_id=${sessionId}`)
+          .then(response => localStorage.setItem('accountId', response.data.id));
         this.$router.push('/movies');
       })
   }

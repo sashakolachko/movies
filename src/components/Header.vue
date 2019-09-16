@@ -9,6 +9,7 @@
           <v-btn text><router-link class="router-link" to="/">Movies</router-link></v-btn>
           <v-btn text><router-link class="router-link" to="/trending">Trending</router-link></v-btn>
           <v-btn text><router-link class="router-link" to="/genres">Genres</router-link></v-btn>
+          <v-btn text v-if="authorized == true"><router-link class="router-link" to="/favorites">Favorites</router-link></v-btn>
           <v-btn v-if="authorized == false" text color="success" @click="login()">Log in</v-btn>
           <div class="d-flex flex-column"  v-else="authorized == true">
             <p class="ma-0">{{ userName }}</p>
@@ -50,10 +51,6 @@ export default {
       axios.get(`https://api.themoviedb.org/3/account?api_key=${this.key}&session_id=${sessionId}`)
         .then(response => this.userName = response.data.username)
     }
-
-  },
-  computed: {
-
   }
 }
 </script>

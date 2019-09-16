@@ -10,20 +10,18 @@
       </div>
       <v-icon class="mr-1 mt-2" color="primary">favorite</v-icon>
       <span>{{ popularity }}</span>
-      <div class="mt-2" v-if="authorized == true">
+      <div class="mt-2">
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on"  @click="markFavorite()" class="mr-1 favorite-icon" color="red">favorite_border</v-icon>
-            <span>Save to favorite</span>
+            <v-icon v-on="on" @click="deleteFavorite()" class="mr-1 favorite-icon" color="red">favorite</v-icon>
+            <span>Delete from favorite</span>
           </template>
           <v-card>
             <v-card-title class="headline cyan lighten-5" primary-title >
               {{ title }}
             </v-card-title>
-
             <v-card-text class="mt-5 dialog-text">
-              This movie added to favorites
-              <p class="mt-3"><router-link class="router-link" to="/favorites">See all favorites</router-link></p>
+              This movie has been deleted from favorites
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
@@ -44,7 +42,7 @@
 import axios from 'axios';
 import key from '../../key.js';
 export default {
-  name: 'Movie',
+  name: 'MovieFavorite',
   props: {
     id: Number,
     title: String,
@@ -67,18 +65,13 @@ export default {
         }
       });
     },
-    markFavorite() {
+    deleteFavorite() {
       axios.post(`https://api.themoviedb.org/3/account/${this.accountId}/favorite?api_key=${this.key}&session_id=${this.sessionId}`, {
           "media_type": "movie",
           "media_id": this.id,
-          "favorite": true
+          "favorite": false
         })
         .then(response => {});
-    }
-  },
-  computed: {
-    authorized() {
-      return this.sessionId ? true : false;
     }
   },
   mounted() {
@@ -89,10 +82,4 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.favorite-icon:hover{
-  cursor: pointer;
-}
-.dialog-text{
-  font-size: 18px;
-}
 </style>
