@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import Movie from './Movie.vue';
+import Movie from './movie/Movie.vue';
 import key from '../../key.js';
 import axios from 'axios';
 export default {

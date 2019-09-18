@@ -40,7 +40,7 @@
 
 <script>
 import axios from 'axios';
-import key from '../../key.js';
+import key from '../../../key.js';
 export default {
   name: 'MovieFavorite',
   props: {
@@ -52,9 +52,7 @@ export default {
   },
   data: () => ({
     key: key,
-    accountId: null,
-    sessionId: null,
-    dialog: false,
+    dialog: false
   }),
   methods: {
     goToMovie(id) {
@@ -66,18 +64,23 @@ export default {
       });
     },
     deleteFavorite() {
-      axios.post(`https://api.themoviedb.org/3/account/${this.accountId}/favorite?api_key=${this.key}&session_id=${this.sessionId}`, {
-          "media_type": "movie",
+      let favType;
+      if (this.$store.state.favType == 'movies') {
+        favType = 'movie';
+      } else {
+        favType = 'tv';
+      }
+      axios.post(`https://api.themoviedb.org/3/account/${localStorage.getItem('accountId')}/favorite?api_key=${this.key}&session_id=${localStorage.getItem('sessionId')}`, {
+          "media_type": favType,
           "media_id": this.id,
           "favorite": false
         })
         .then(response => {});
+      let newFav = this.$store.state.favMovies.filter(item => item.id !== this.id);
+      this.$store.commit('setFavMovies', newFav);
     }
-  },
-  mounted() {
-    this.sessionId = localStorage.getItem('sessionId');
-    this.accountId = localStorage.getItem('accountId');
   }
+
 }
 </script>
 

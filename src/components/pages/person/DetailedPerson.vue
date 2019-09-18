@@ -17,9 +17,9 @@
 
 <script>
 import axios from 'axios';
-import key from '../../key.js';
+import key from '../../../key.js';
 
-import NotFound from './NotFound.vue';
+import NotFound from '../NotFound.vue';
 import PersonCard from './PersonCard.vue';
 
 export default {

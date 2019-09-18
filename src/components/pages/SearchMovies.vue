@@ -1,12 +1,12 @@
 <template lang="html">
 <v-container grid-list-xs,sm,md,lg,xl>
-  <SearchBar @searchMovie="searchMovie"/>
+  <SearchBar />
   <v-layout row  justify-space-between >
     <v-flex xs12 sm6 md4 lg3 v-for="movie in movies" :key="movie.id" v-if="renderPeople == false">
     <Movie
       :id="movie.id"
       :popularity="movie.popularity"
-      :posterPath="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+      :posterPath="movie.poster_path"
       :backdropPath="movie.backdrop_path"
       :originalTitle="movie.original_language"
       :title="movie.title"
@@ -19,7 +19,7 @@
     <Person
       :id="person.id"
       :name="person.name"
-      :profilePath="`https://image.tmdb.org/t/p/w500${person.profile_path}`"
+      :profilePath="person.profile_path"
     />
     </v-flex>
   </v-layout>
@@ -29,8 +29,8 @@
 
 <script>
 import SearchBar from './SearchBar.vue';
-import Movie from './Movie.vue';
-import Person from './Person.vue';
+import Movie from './movie/Movie.vue';
+import Person from './person/Person.vue';
 import axios from 'axios';
 import key from '../../key.js';
 export default {
@@ -41,22 +41,17 @@ export default {
     Person
   },
   data: () => ({
-    movies: [],
-    people: [],
-    renderPeople: false,
     key: key,
   }),
-  methods: {
-    searchMovie(data) {
-      if (data.searchType == 'person') {
-        this.renderPeople = true;
-        axios.get(`https://api.themoviedb.org/3/search/${data.searchType}?query=${data.keyWord}&api_key=${this.key}`)
-          .then(response => this.people = response.data.results);
-      } else {
-        this.renderPeople = false;
-        axios.get(`https://api.themoviedb.org/3/search/${data.searchType}?query=${data.keyWord}&api_key=${this.key}`)
-          .then(response => this.movies = response.data.results);
-      }
+  computed: {
+    people() {
+      return this.$store.state.people;
+    },
+    movies() {
+      return this.$store.state.movies;
+    },
+    renderPeople() {
+      return this.$store.state.renderPeople;
     }
   }
 }

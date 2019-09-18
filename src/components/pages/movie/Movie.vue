@@ -42,7 +42,7 @@
 
 <script>
 import axios from 'axios';
-import key from '../../key.js';
+import key from '../../../key.js';
 export default {
   name: 'Movie',
   props: {
@@ -54,7 +54,6 @@ export default {
   },
   data: () => ({
     key: key,
-    accountId: null,
     sessionId: null,
     dialog: false,
   }),
@@ -68,8 +67,8 @@ export default {
       });
     },
     markFavorite() {
-      axios.post(`https://api.themoviedb.org/3/account/${this.accountId}/favorite?api_key=${this.key}&session_id=${this.sessionId}`, {
-          "media_type": "movie",
+      axios.post(`https://api.themoviedb.org/3/account/${localStorage.getItem('accountId')}/favorite?api_key=${this.key}&session_id=${this.sessionId}`, {
+          "media_type": this.$store.state.searchType,
           "media_id": this.id,
           "favorite": true
         })
@@ -83,7 +82,6 @@ export default {
   },
   mounted() {
     this.sessionId = localStorage.getItem('sessionId');
-    this.accountId = localStorage.getItem('accountId');
   }
 }
 </script>

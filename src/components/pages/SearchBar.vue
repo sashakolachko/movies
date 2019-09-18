@@ -67,10 +67,11 @@ export default {
   methods: {
     search() {
       if (this.$refs.form.validate()) {
-        this.$emit('searchMovie', {
+        this.$store.dispatch('sendKeyWordData', {
           keyWord: this.keyWord,
           searchType: this.selected.itemValue
         });
+        this.$store.dispatch('searchMovie');
       }
     }
   },
